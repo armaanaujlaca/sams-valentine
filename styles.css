@@ -1,0 +1,117 @@
+body {
+  position: relative;
+  margin: 0;
+  min-height: 100vh;
+  background: #e03232;
+  overflow-x: hidden;   /* allow vertical scrolling */
+  overflow-y: auto;     /* vertical scroll enabled */
+  display: block;       /* remove flex centering */
+}
+
+.boxes-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px; /* space between boxes */
+  padding: 40px 0;
+  z-index: 10; /* above hearts */
+  width: 100%;
+}
+
+.heart {
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  background: white;
+  transform: rotate(45deg);
+  opacity: 0.8;
+  z-index: 1;
+  pointer-events: none;
+  transition: top 0.5s ease, left 0.5s ease, transform 0.5s ease;
+}
+
+
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  background: white;
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: calc(var(--size) * -0.5);
+  left: 0;
+}
+
+.heart::after {
+  left: calc(var(--size) * -0.5);
+  top: 0;
+}
+
+@keyframes float {
+  0%   { transform: translateY(0) rotate(45deg); }
+  50%  { transform: translateY(-15px) rotate(45deg); }
+  100% { transform: translateY(0) rotate(45deg); }
+}
+
+.center-box {
+  position: relative;
+  width: 360px;
+  max-width: 90vw;
+  padding: 16px;
+  background: white;
+  border-radius: 18px;
+  border: 5px solid rgb(3,3,3);
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-box video {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+}
+
+/* LOCKED EFFECT */
+.center-box.locked video {
+  filter: blur(8px);
+  pointer-events: none; /* prevents clicking the video */
+  user-select: none;
+  opacity: 0.6;
+}
+
+/* LOCK ICON OVERLAY */
+.lock-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  color: black;
+  pointer-events: none; /* clicks pass through overlay */
+  z-index: 10;
+}
+
+/* Black overlay */
+.black-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  border-radius: 12px;
+  z-index: 5;
+}
+
+/* Hide overlay when unlocked */
+.center-box:not(.locked) .black-overlay {
+  display: none;
+}
